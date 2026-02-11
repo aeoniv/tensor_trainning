@@ -115,6 +115,13 @@ async def main_async():
         data = mujoco.MjData(model)
         
         print("Starting WebSocket Server on port 8765...")
+        
+        # Debug: Print Actuators
+        print(f"Model has {model.nu} actuators.")
+        for i in range(model.nu):
+            name = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_ACTUATOR, i)
+            print(f" - Actuator {i}: {name}")
+
         async with websockets.serve(handler, "0.0.0.0", 8765):
             await run_simulation(model, data)
 
